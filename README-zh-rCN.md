@@ -14,6 +14,12 @@ Demo apk : [下载](https://github.com/yydcdut/RxMarkdown/blob/master/apk/demo.a
 
 ![RxMarkdown.gif](http://7xs03u.com1.z0.glb.clouddn.com/rxmarkdown.gif)
 
+# Gradle
+
+```groovy
+compile 'com.yydcdut:rxmarkdown:0.0.8-beta'
+```
+
 ## 支持语法
 
 RxMarkdown 目前提供两种解析 markdown 的解析方式， `TextFactory` 和 `EditFactory` 。

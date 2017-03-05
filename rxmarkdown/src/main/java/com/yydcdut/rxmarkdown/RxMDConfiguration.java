@@ -223,7 +223,7 @@ public class RxMDConfiguration {
     /**
      * get horizontal rules height
      *
-     * @return
+     * @return the height of horizontal rules
      */
     public int getHorizontalRulesHeight() {
         return horizontalRulesHeight;
@@ -548,7 +548,7 @@ public class RxMDConfiguration {
         /**
          * set horizontal rules height
          *
-         * @param horizontalRulesHeight
+         * @param horizontalRulesHeight horizontal rules height
          * @return self
          */
         public Builder setHorizontalRulesHeight(int horizontalRulesHeight) {

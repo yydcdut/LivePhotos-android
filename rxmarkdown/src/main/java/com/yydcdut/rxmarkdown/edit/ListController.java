@@ -119,22 +119,27 @@ public class ListController extends AbsEditController {
         }
         Editable editable = (Editable) s;
         if (checkNewLineInput(editable, start, before, after)) {
-            MDOrderListSpan mdOrderListSpan = getOrderListSpan(editable, start - 1, false);//(start - 1), 不-1会出问题
-            MDUnOrderListSpan mdUnOrderListSpan = getUnOrderListSpan(editable, start - 1, false);//(start - 1), 不-1会出问题
+            MDOrderListSpan mdOrderListSpan = getOrderListSpan(editable, start, false);
+            MDUnOrderListSpan mdUnOrderListSpan = getUnOrderListSpan(editable, start, false);
             if (mdOrderListSpan != null) {
                 //// TODO: 2017/1/9 判断上一行是否有内容
-//                int startOfSpan = editable.getSpanStart(mdOrderListSpan);
-//                int endOfSpan = editable.getSpanEnd(mdOrderListSpan);
-//                int nested = mdOrderListSpan.getNested();
-                updateOrderListSpanBeforeNewLine(editable, start, mdOrderListSpan);
-//                Log.i("yuyidong", "e - s -->" + (endOfSpan - startOfSpan) + "  end -->" + endOfSpan);
-//                if (endOfSpan - startOfSpan > 3) {
-                insertOrderList(editable, mdOrderListSpan, start);
-//                }
+                int startOfSpan = editable.getSpanStart(mdOrderListSpan);
+                int endOfSpan = editable.getSpanEnd(mdOrderListSpan);
+                int nested = mdOrderListSpan.getNested();
+                if (endOfSpan - startOfSpan > ". ".length() + String.valueOf(mdOrderListSpan.getNumber()).length()) {
+                    updateOrderListSpanBeforeNewLine(editable, start, mdOrderListSpan);
+                    insertOrderList(editable, mdOrderListSpan, start);
+                } else {
+
+                }
             } else if (mdUnOrderListSpan != null) {
                 int spanStart = editable.getSpanStart(mdUnOrderListSpan);
                 int spanEnd = editable.getSpanEnd(mdUnOrderListSpan);
                 int nested = mdUnOrderListSpan.getNested();
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = spanStart; i < spanEnd; i++) {
+                    stringBuilder.append(editable.charAt(i));
+                }
                 if (spanEnd - spanStart > 3 + nested) {
                     updateUnOrderListSpanBeforeNewLine(editable, start, mdUnOrderListSpan, false);
                     insertUnOrderList(editable, mdUnOrderListSpan, start);

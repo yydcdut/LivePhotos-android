@@ -59,7 +59,7 @@ public class CenterAlignController extends AbsEditController {
             return;
         }
         String addString;
-        addString = s.subSequence(start, start + Math.abs(after - before)).toString();
+        addString = s.subSequence(start, start + after).toString();
         if (addString.contains(KEY0) || addString.contains(KEY1)) {
             format((Editable) s, start);
         }

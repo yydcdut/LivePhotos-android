@@ -16,6 +16,12 @@ Change Log : [SEE](./CHANGELOG.md)
 
 ![RxMarkdown.gif](https://raw.githubusercontent.com/yydcdut/RxMarkdown/master/art/rxmarkdown.gif)
 
+# Gradle
+
+```groovy
+compile 'com.yydcdut:rxmarkdown:0.0.8-beta'
+```
+
 ## Support Grammar 
 
 RxMarkdown now provides 2 factories to parse markdown,  `TextFactory` and `EditFactory` .

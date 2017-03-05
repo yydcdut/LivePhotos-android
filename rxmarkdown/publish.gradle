@@ -9,12 +9,12 @@ task sourcesJar(type: Jar) {
 task javadoc(type: Javadoc) {
     source = project.android.sourceSets.main.java.srcDirs
     classpath += project.files(project.android.getBootClasspath().join(File.pathSeparator))
-//    def files = new File(projectDir.getPath() + File.separator + "libs" + File.separator).listFiles()
-//    def absolutePathArray = new String[files.length]
-//    for (int i = 0; i < files.length; i++) {
-//        absolutePathArray[i] = files[i].absolutePath
-//    }
-//    classpath += project.files(absolutePathArray)
+    def files = new File(projectDir.getPath() + File.separator + "libs" + File.separator).listFiles()
+    def absolutePathArray = new String[files.length]
+    for (int i = 0; i < files.length; i++) {
+        absolutePathArray[i] = files[i].absolutePath
+    }
+    classpath += project.files(absolutePathArray)
     classpath += configurations.compile
     options.encoding = 'UTF-8'
 }
@@ -29,7 +29,7 @@ artifacts {
     archives sourcesJar
 }
 
-version = "0.0.5"
+version = "0.0.8-beta"
 
 def siteUrl = 'https://github.com/yydcdut/RxMarkdown'
 def gitUrl = 'https://github.com/yydcdut/RxMarkdown.git'

@@ -6,3 +6,7 @@
 
 ### 0.0.7
 * Add bold and italic grammar (__bold__ && _italic_)
+
+### 0.0.8-beta
+* Add HorizontalRules height
+* Optimizing UnOrderList

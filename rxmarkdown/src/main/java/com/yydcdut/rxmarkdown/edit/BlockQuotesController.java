@@ -69,9 +69,9 @@ public class BlockQuotesController extends AbsEditController {
         String addString;
         String beforeString = null;
         String afterString = null;
-        addString = s.subSequence(start, start + Math.abs(after - before)).toString();
-        if (start + (after - before) + 1 <= s.length()) {
-            afterString = s.subSequence(start + Math.abs(before - after), start + Math.abs(before - after) + 1).toString();
+        addString = s.subSequence(start, start + after).toString();
+        if (start + 1 <= s.length()) {
+            afterString = s.subSequence(start, start + 1).toString();
         }
         if (start > 0) {
             beforeString = s.subSequence(start - 1, start).toString();

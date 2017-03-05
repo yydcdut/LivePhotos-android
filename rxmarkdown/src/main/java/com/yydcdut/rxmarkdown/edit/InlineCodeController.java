@@ -58,7 +58,7 @@ public class InlineCodeController extends AbsEditController {
             return;
         }
         String addString;
-        addString = s.subSequence(start, start + Math.abs(after - before)).toString();
+        addString = s.subSequence(start, start + after).toString();
         if (addString.contains(KEY)) {
             format((Editable) s, start);
         }
