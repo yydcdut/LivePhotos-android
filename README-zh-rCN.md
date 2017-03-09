@@ -17,7 +17,7 @@ Demo apk : [下载](https://github.com/yydcdut/RxMarkdown/blob/master/apk/demo.a
 # Gradle
 
 ```groovy
-compile 'com.yydcdut:rxmarkdown:0.0.8-beta'
+compile 'com.yydcdut:rxmarkdown:0.0.9-beta'
 ```
 
 ## 支持语法

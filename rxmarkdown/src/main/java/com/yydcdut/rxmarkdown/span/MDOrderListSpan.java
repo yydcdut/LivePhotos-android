@@ -21,12 +21,17 @@ import android.graphics.Paint;
 import android.text.Layout;
 import android.text.style.BulletSpan;
 
+import java.util.List;
+
 /**
  * order list grammar span
  * <p>
  * Created by yuyidong on 16/7/8.
  */
 public class MDOrderListSpan extends BulletSpan {
+
+    private MDOrderListSpan mParent;//// TODO: 2017/3/5 添加父节点
+    private List<MDOrderListSpan> mChildren;//// TODO: 2017/3/5 添加子节点 
 
     private int mNumber;
     private int mNested;

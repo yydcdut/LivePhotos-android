@@ -10,3 +10,6 @@
 ### 0.0.8-beta
 * Add HorizontalRules height
 * Optimizing UnOrderList
+
+### 0.0.9-bate
+* fix #19

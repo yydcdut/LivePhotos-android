@@ -19,7 +19,7 @@ Change Log : [SEE](./CHANGELOG.md)
 # Gradle
 
 ```groovy
-compile 'com.yydcdut:rxmarkdown:0.0.8-beta'
+compile 'com.yydcdut:rxmarkdown:0.0.9-beta'
 ```
 
 ## Support Grammar 
