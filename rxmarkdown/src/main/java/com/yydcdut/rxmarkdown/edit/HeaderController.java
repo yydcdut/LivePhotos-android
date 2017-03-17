@@ -59,16 +59,12 @@ public class HeaderController extends AbsEditController {
         if (mRxMDConfiguration == null && !(s instanceof Editable)) {
             return;
         }
-        /**
-         * 由beforeTextChanged函数校验是否需要格式化
-         */
+
         if (shouldFormat) {
             format((Editable) s, start);
             return;
         }
-        /**
-         * 如果是新增内容，则往下执行，否则不往下走
-         */
+
         if (after == 0) {
             return;
         }

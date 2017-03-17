@@ -47,31 +47,31 @@ import java.util.regex.Pattern;
 class HeaderGrammar extends EditGrammarAdapter {
 
     /**
-     * {@link com.fish.community.rxmarkdown.grammar.android.CenterAlignGrammar#KEY_0_CENTER_ALIGN}
+     * {@link com.yydcdut.rxmarkdown.grammar.android.CenterAlignGrammar#KEY_0_CENTER_ALIGN}
      */
     private static final String KEY_0_CENTER_ALIGN = "[";
     /**
-     * {@link com.fish.community.rxmarkdown.grammar.android.HeaderGrammar#KEY_0_HEADER}
+     * {@link com.yydcdut.rxmarkdown.grammar.android.HeaderGrammar#KEY_0_HEADER}
      */
     private static final String KEY_0_HEADER = "#";
     /**
-     * {@link com.fish.community.rxmarkdown.grammar.android.HeaderGrammar#KEY_1_HEADER}
+     * {@link com.yydcdut.rxmarkdown.grammar.android.HeaderGrammar#KEY_1_HEADER}
      */
     private static final String KEY_1_HEADER = "##";
     /**
-     * {@link com.fish.community.rxmarkdown.grammar.android.HeaderGrammar#KEY_2_HEADER}
+     * {@link com.yydcdut.rxmarkdown.grammar.android.HeaderGrammar#KEY_2_HEADER}
      */
     private static final String KEY_2_HEADER = "###";
     /**
-     * {@link com.fish.community.rxmarkdown.grammar.android.HeaderGrammar#KEY_3_HEADER}
+     * {@link com.yydcdut.rxmarkdown.grammar.android.HeaderGrammar#KEY_3_HEADER}
      */
     private static final String KEY_3_HEADER = "####";
     /**
-     * {@link com.fish.community.rxmarkdown.grammar.android.HeaderGrammar#KEY_4_HEADER}
+     * {@link com.yydcdut.rxmarkdown.grammar.android.HeaderGrammar#KEY_4_HEADER}
      */
     private static final String KEY_4_HEADER = "#####";
     /**
-     * {@link com.fish.community.rxmarkdown.grammar.android.HeaderGrammar#KEY_5_HEADER}
+     * {@link com.yydcdut.rxmarkdown.grammar.android.HeaderGrammar#KEY_5_HEADER}
      */
     private static final String KEY_5_HEADER = "######";
 
@@ -112,13 +112,10 @@ class HeaderGrammar extends EditGrammarAdapter {
             int index = content.indexOf(match);
             int length = match.length();
             editTokenList.add(new EditToken(getSpan(match), index, index + length));
-
-            //----remove invalid code------------
-            //StringBuilder sb = new StringBuilder();
-//            for (int i = 0; i < length; i++) {
-//                sb.append(" ");
-//            }
-
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < length; i++) {
+                sb.append(" ");
+            }
             StringBuilder placeHolder = new StringBuilder();
             for (int i = 0; i < length; i++) {
                 placeHolder.append(" ");
