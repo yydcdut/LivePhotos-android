@@ -30,6 +30,7 @@ import android.view.View;
 
 import com.yydcdut.rxmarkdown.drawable.ForwardingDrawable;
 import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
+import com.yydcdut.rxmarkdown.utils.ImageUtils;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -87,7 +88,7 @@ public class MDImageSpan extends DynamicDrawableSpan {
      */
     private MDImageSpan(String uri, Drawable placeHolder, RxMDImageLoader rxMDImageLoader) {
         super(ALIGN_BOTTOM);
-        getUrl(uri);
+        //getUrl(uri);
         mRxMDImageLoader = rxMDImageLoader;
         mImageUri = uri;
         mPlaceHolder = placeHolder;
@@ -178,6 +179,7 @@ public class MDImageSpan extends DynamicDrawableSpan {
 
     private BitmapDrawable createBitmapDrawable(Bitmap bitmap) {
         BitmapDrawable drawable;
+       // bitmap = ImageUtils.scaleBitmap(bitmap, 1080, 600);
         if (mAttachedView != null) {
             final Context context = mAttachedView.getContext();
             drawable = new BitmapDrawable(context.getResources(), bitmap);
@@ -229,6 +231,9 @@ public class MDImageSpan extends DynamicDrawableSpan {
         mActualDrawable.setCurrent(mPlaceHolder);
     }
 
+    /**
+     * Parse the width and height in sourceUrl, Return the int array.
+     */
     @NonNull
     private static int[] getSize(String sourceUrl, int defaultWidth, int defaultHeight) {
         Matcher m = sImageUrlPattern.matcher(sourceUrl);
@@ -244,6 +249,9 @@ public class MDImageSpan extends DynamicDrawableSpan {
         return size;
     }
 
+    /**
+     * Return the url in sourceUrl
+     */
     @NonNull
     private static String getUrl(String sourceUrl) {
         Matcher m = sImageUrlPattern.matcher(sourceUrl);
@@ -252,4 +260,5 @@ public class MDImageSpan extends DynamicDrawableSpan {
         }
         return sourceUrl;
     }
+
 }

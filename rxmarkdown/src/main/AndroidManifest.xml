@@ -1,5 +1,16 @@
-<manifest package="com.yydcdut.rxmarkdown">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.yydcdut.rxmarkdown">
 
-    <application>
+    <application
+        android:allowBackup="true">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/rxmarkdown_file_paths" />
+        </provider>
     </application>
 </manifest>

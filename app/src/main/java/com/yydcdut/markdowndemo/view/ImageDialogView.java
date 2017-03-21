@@ -23,6 +23,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.yydcdut.markdowndemo.R;
+import com.yydcdut.rxmarkdown.utils.UriParseCompat;
 
 import java.io.File;
 
@@ -98,13 +99,7 @@ public class ImageDialogView extends LinearLayout implements View.OnClickListene
                 return;
             }
             Uri uri = data.getData();
-            String[] proj = {MediaStore.Images.Media.DATA};
-            Cursor cursor = mTargetImageView.getContext().getContentResolver().query(uri, proj, null, null, null);
-            if (cursor.moveToFirst()) {
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                mPath = "file:/" + cursor.getString(column_index);
-            }
-            cursor.close();
+            mPath = "file:/" + UriParseCompat.getFilePathWithUri(uri, mTargetImageView.getContext());
             ImageLoader.getInstance().displayImage(mPath, mTargetImageView);
         }
     }

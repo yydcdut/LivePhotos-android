@@ -1,10 +1,13 @@
 package com.yydcdut.markdowndemo.controller;
 
+import android.app.Service;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.yydcdut.markdowndemo.view.ImageDialogView;
@@ -49,7 +52,10 @@ public class ImageController {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        int width = mImageDialogView.getImageWidth();
+                        WindowManager windowManager = (WindowManager) mImageDialogView.getContext().getSystemService(Service.WINDOW_SERVICE);
+                        DisplayMetrics dm = new DisplayMetrics();// 创建了一张白纸
+                        windowManager.getDefaultDisplay().getMetrics(dm);// 给白纸设置宽高
+                        int width = dm.widthPixels;
                         int height = mImageDialogView.getImageHeight();
                         String path = mImageDialogView.getPath();
                         String description = mImageDialogView.getDescription();
@@ -69,10 +75,10 @@ public class ImageController {
     private void doRealImage(int width, int height, String path, String description) {
         int start = mRxMDEditText.getSelectionStart();
         if (TextUtils.isEmpty(description)) {
-            mRxMDEditText.getText().insert(start, "![](" + path + "/" + width + "$" + height + ")");
+            mRxMDEditText.getText().insert(start, "\n![](" + path + "/" + width + "$" + height + ")\n");
             mRxMDEditText.setSelection(start + 2);
         } else {
-            mRxMDEditText.getText().insert(start, "![" + description + "](" + path + "/" + width + "$" + height + ")");
+            mRxMDEditText.getText().insert(start, "\n![" + description + "](" + path + "/" + width + "$" + height + ")\n");
         }
     }
 
