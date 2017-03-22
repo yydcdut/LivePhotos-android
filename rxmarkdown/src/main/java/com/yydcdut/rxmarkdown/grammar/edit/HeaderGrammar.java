@@ -17,6 +17,7 @@ package com.yydcdut.rxmarkdown.grammar.edit;
 
 import android.support.annotation.NonNull;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
@@ -100,13 +101,24 @@ class HeaderGrammar extends EditGrammarAdapter {
         Pattern p = Pattern.compile("^(#{1,6})(.*?)$", Pattern.MULTILINE);
         Matcher m = p.matcher(content);
         List<String> matchList = new ArrayList<>();//找到的
+        List<String> specialList = new ArrayList<>();//处理特殊的
         while (m.find()) {
-            matchList.add(m.group());
+            String matchString = m.group();
+            if (matchSpecial(matchString)) {
+                specialList.add(matchString);
+            } else {
+                matchList.add(matchString);
+            }
         }
         Pattern p2 = Pattern.compile("^\\[(#{1,6}(.*?)\\]$)", Pattern.MULTILINE);
         Matcher m2 = p2.matcher(content);
         while (m2.find()) {
-            matchList.add(m2.group());
+            String matchString = m2.group();
+            if (matchSpecial(matchString)) {
+                specialList.add(matchString);
+            } else {
+                matchList.add(matchString);
+            }
         }
         for (String match : matchList) {
             int index = content.indexOf(match);
@@ -162,5 +174,23 @@ class HeaderGrammar extends EditGrammarAdapter {
             return new RelativeSizeSpan(1.0f);
         }
         return new RelativeSizeSpan(1.0f);
+    }
+
+    /**
+     * match special string
+     *
+     * @param match the matched string
+     * @return if matched
+     */
+    private static boolean matchSpecial(String match) {
+        if (TextUtils.equals(match, KEY_0_HEADER) ||
+                TextUtils.equals(match, KEY_1_HEADER) ||
+                TextUtils.equals(match, KEY_2_HEADER) ||
+                TextUtils.equals(match, KEY_3_HEADER) ||
+                TextUtils.equals(match, KEY_4_HEADER) ||
+                TextUtils.equals(match, KEY_5_HEADER)) {
+            return true;
+        }
+        return false;
     }
 }
