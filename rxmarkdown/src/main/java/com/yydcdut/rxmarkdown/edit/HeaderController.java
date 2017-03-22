@@ -59,32 +59,38 @@ public class HeaderController extends AbsEditController {
         if (mRxMDConfiguration == null && !(s instanceof Editable)) {
             return;
         }
+
         if (shouldFormat) {
             format((Editable) s, start);
             return;
         }
+
         if (after == 0) {
             return;
         }
-        String addString;
-        String beforeString = null;
-        String afterString = null;
-        addString = s.subSequence(start, start + after).toString();
-        if (start + 1 <= s.length()) {
-            afterString = s.subSequence(start, start + 1).toString();
-        }
-        if (start > 0) {
-            beforeString = s.subSequence(start - 1, start).toString();
-        }
-        //## ss --> #12# ss(##12 ss)
-        if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
+
+        //--------old version logic-----------
+//        String addString;
+//        String beforeString = null;
+//        String afterString = null;
+//        //new string
+//        addString = s.subSequence(start, start + after).toString();
+//        if (start + 1 <= s.length()) {
+//            afterString = s.subSequence(start, start + 1).toString();
+//        }
+//        if (start > 0) {
+//            beforeString = s.subSequence(start - 1, start).toString();
+//        }
+//        //## ss --> #12# ss(##12 ss)
+//        if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
+//            format((Editable) s, start);
+//        }
+
+        //--------new version logic-----------
+        if(s.toString().contains("#")) {
             format((Editable) s, start);
         }
 
-//        int bnl = EditUtils.findBeforeNewLineChar(s, start);
-//        if (s.subSequence(bnl + 1, bnl + 2).toString().equals(KEY)) {
-//            format((Editable) s, bnl + 1);
-//        }
     }
 
     private void format(Editable editable, int start) {

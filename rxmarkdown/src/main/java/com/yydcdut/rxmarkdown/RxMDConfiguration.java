@@ -19,6 +19,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 import com.yydcdut.rxmarkdown.callback.BlockquoteBackgroundNestedColorFetcher;
 import com.yydcdut.rxmarkdown.callback.OnLinkClickCallback;
@@ -31,6 +33,11 @@ import com.yydcdut.rxmarkdown.loader.RxMDImageLoader;
  * Created by yuyidong on 16/6/22.
  */
 public class RxMDConfiguration {
+
+    private final int widthPixels;
+
+    private final int heightPixels;
+
     private final int[] defaultImageSize;
     @ColorInt
     private final int blockQuotesColor;
@@ -95,7 +102,7 @@ public class RxMDConfiguration {
      * @param isAppendNewlineAfterLastLine add newline after last line
      * @param colorFetcher                 the nested blockQuote color callback
      */
-    private RxMDConfiguration(int[] defaultImageSize, int blockQuotesColor,
+    private RxMDConfiguration(int widthPixels, int heightPixels, int[] defaultImageSize, int blockQuotesColor,
                               float header1RelativeSize, float header2RelativeSize,
                               float header3RelativeSize, float header4RelativeSize,
                               float header5RelativeSize, float header6RelativeSize,
@@ -104,6 +111,8 @@ public class RxMDConfiguration {
                               int blockQuoteBgColor, int linkColor, boolean isLinkUnderline,
                               RxMDImageLoader rxMDImageLoader, OnLinkClickCallback onLinkClickCallback,
                               boolean isDebug, boolean isAppendNewlineAfterLastLine, BlockquoteBackgroundNestedColorFetcher colorFetcher) {
+        this.widthPixels = widthPixels;
+        this.heightPixels = heightPixels;
         this.defaultImageSize = defaultImageSize;
         this.blockQuotesColor = blockQuotesColor;
         this.header1RelativeSize = header1RelativeSize;
@@ -128,6 +137,14 @@ public class RxMDConfiguration {
         this.isDebug = isDebug;
         this.isAppendNewlineAfterLastLine = isAppendNewlineAfterLastLine;
         this.colorFetcher = colorFetcher;
+    }
+
+    public final int getWidthPixels() {
+        return widthPixels;
+    }
+
+    public final int getHeightPixels() {
+        return heightPixels;
     }
 
     /**
@@ -353,6 +370,10 @@ public class RxMDConfiguration {
      */
     public static class Builder {
 
+        private int widthPixels;
+
+        private int heightPixels;
+
         private int[] defaultImageSize;
 
         @ColorInt
@@ -432,6 +453,11 @@ public class RxMDConfiguration {
             rxMDImageLoader = new DefaultLoader(context);
             mOnLinkClickCallback = null;
             isAppendNewlineAfterLastLine = true;
+            WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+            DisplayMetrics dm = new DisplayMetrics();
+            windowManager.getDefaultDisplay().getMetrics(dm);
+            widthPixels = dm.widthPixels;
+            heightPixels = dm.heightPixels;
         }
 
         /**
@@ -700,6 +726,11 @@ public class RxMDConfiguration {
             return this;
         }
 
+        public Builder setWidthPixels(int widthPixels) {
+            this.widthPixels = widthPixels;
+            return this;
+        }
+
         /**
          * get RxMDConfiguration
          *
@@ -707,6 +738,8 @@ public class RxMDConfiguration {
          */
         public RxMDConfiguration build() {
             return new RxMDConfiguration(
+                    widthPixels,
+                    heightPixels,
                     defaultImageSize, blockQuotesColor,
                     header1RelativeSize,
                     header2RelativeSize,

@@ -1,7 +1,9 @@
 package com.yydcdut.markdowndemo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -11,10 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.yydcdut.markdowndemo.view.HorizontalEditScrollView;
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
@@ -50,6 +54,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        int widthPixels = Resources.getSystem().getDisplayMetrics().widthPixels;
+
         setContentView(R.layout.activity_edit);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -61,8 +68,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
         mEditText = (RxMDEditText) findViewById(R.id.edit_md);
         mHorizontalEditScrollView = (HorizontalEditScrollView) findViewById(R.id.scroll_edit);
+        WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();// 创建了一张白纸
+        windowManager.getDefaultDisplay().getMetrics(dm);// 给白纸设置宽高
         RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(this)
-                .setDefaultImageSize(50, 50)
+                .setDefaultImageSize(dm.widthPixels, 50)
                 .setBlockQuotesColor(0xff33b5e5)
                 .setHeader1RelativeSize(2.2f)
                 .setHeader2RelativeSize(2.0f)

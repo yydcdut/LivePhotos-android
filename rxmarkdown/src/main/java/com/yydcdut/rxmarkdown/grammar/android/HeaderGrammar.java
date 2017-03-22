@@ -44,27 +44,27 @@ class HeaderGrammar extends AbsAndroidGrammar {
     /**
      * {@link com.yydcdut.rxmarkdown.grammar.edit.HeaderGrammar#KEY_0_HEADER}
      */
-    protected static final String KEY_0_HEADER = "# ";
+    protected static final String KEY_0_HEADER = "#";
     /**
      * {@link com.yydcdut.rxmarkdown.grammar.edit.HeaderGrammar#KEY_1_HEADER}
      */
-    protected static final String KEY_1_HEADER = "## ";
+    protected static final String KEY_1_HEADER = "##";
     /**
      * {@link com.yydcdut.rxmarkdown.grammar.edit.HeaderGrammar#KEY_2_HEADER}
      */
-    protected static final String KEY_2_HEADER = "### ";
+    protected static final String KEY_2_HEADER = "###";
     /**
      * {@link com.yydcdut.rxmarkdown.grammar.edit.HeaderGrammar#KEY_3_HEADER}
      */
-    protected static final String KEY_3_HEADER = "#### ";
+    protected static final String KEY_3_HEADER = "####";
     /**
      * {@link com.yydcdut.rxmarkdown.grammar.edit.HeaderGrammar#KEY_4_HEADER}
      */
-    protected static final String KEY_4_HEADER = "##### ";
+    protected static final String KEY_4_HEADER = "#####";
     /**
      * {@link com.yydcdut.rxmarkdown.grammar.edit.HeaderGrammar#KEY_5_HEADER}
      */
-    protected static final String KEY_5_HEADER = "###### ";
+    protected static final String KEY_5_HEADER = "######";
 
     private float mHeader1RelativeSize;
     private float mHeader2RelativeSize;

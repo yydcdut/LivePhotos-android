@@ -82,22 +82,22 @@ public class HeaderController {
     private void deleteHeaderKey(int startPosition, int deleteHeader) {
         switch (deleteHeader) {
             case 1:
-                mRxMDEditText.getText().delete(startPosition, startPosition + "# ".length());
+                mRxMDEditText.getText().delete(startPosition, startPosition + "#".length());
                 break;
             case 2:
-                mRxMDEditText.getText().delete(startPosition, startPosition + "## ".length());
+                mRxMDEditText.getText().delete(startPosition, startPosition + "##".length());
                 break;
             case 3:
-                mRxMDEditText.getText().delete(startPosition, startPosition + "### ".length());
+                mRxMDEditText.getText().delete(startPosition, startPosition + "###".length());
                 break;
             case 4:
-                mRxMDEditText.getText().delete(startPosition, startPosition + "#### ".length());
+                mRxMDEditText.getText().delete(startPosition, startPosition + "####".length());
                 break;
             case 5:
-                mRxMDEditText.getText().delete(startPosition, startPosition + "##### ".length());
+                mRxMDEditText.getText().delete(startPosition, startPosition + "#####".length());
                 break;
             case 6:
-                mRxMDEditText.getText().delete(startPosition, startPosition + "###### ".length());
+                mRxMDEditText.getText().delete(startPosition, startPosition + "######".length());
                 break;
         }
     }
@@ -105,22 +105,22 @@ public class HeaderController {
     private void addHeaderKey(int startPosition, int addHeader) {
         switch (addHeader) {
             case 1:
-                mRxMDEditText.getText().insert(startPosition, "# ");
+                mRxMDEditText.getText().insert(startPosition, "#");
                 break;
             case 2:
-                mRxMDEditText.getText().insert(startPosition, "## ");
+                mRxMDEditText.getText().insert(startPosition, "##");
                 break;
             case 3:
-                mRxMDEditText.getText().insert(startPosition, "### ");
+                mRxMDEditText.getText().insert(startPosition, "###");
                 break;
             case 4:
-                mRxMDEditText.getText().insert(startPosition, "#### ");
+                mRxMDEditText.getText().insert(startPosition, "####");
                 break;
             case 5:
-                mRxMDEditText.getText().insert(startPosition, "##### ");
+                mRxMDEditText.getText().insert(startPosition, "#####");
                 break;
             case 6:
-                mRxMDEditText.getText().insert(startPosition, "###### ");
+                mRxMDEditText.getText().insert(startPosition, "######");
                 break;
         }
     }

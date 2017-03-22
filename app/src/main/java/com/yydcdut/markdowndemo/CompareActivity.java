@@ -61,7 +61,8 @@ public class CompareActivity extends AppCompatActivity implements TextWatcher {
                 .setLinkColor(0xff00ddff)
                 .build();
         horizontalEditScrollView.setEditTextAndConfig(mRxMDEditText, mRxMDConfiguration);
-        mRxMDEditText.setText(Const.MD_SAMPLE);
+//        mRxMDEditText.setText(Const.MD_SAMPLE);
+        mRxMDEditText.setText("");
         RxMarkdown.live(mRxMDEditText)
                 .config(mRxMDConfiguration)
                 .factory(EditFactory.create())
