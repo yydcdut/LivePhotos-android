@@ -15,6 +15,7 @@
  */
 package com.yydcdut.rxmarkdown.edit;
 
+import android.graphics.Typeface;
 import android.text.Editable;
 import android.text.style.StyleSpan;
 
@@ -72,16 +73,19 @@ public class StyleController extends AbsEditController {
         String addString;
         String beforeString = null;
         String afterString = null;
+        StyleSpan[] beforeSpan = null;
         addString = s.subSequence(start, start + after).toString();
         if (start + 1 <= s.length()) {
             afterString = s.subSequence(start, start + 1).toString();
         }
         if (start > 0) {
             beforeString = s.subSequence(start - 1, start).toString();
+            beforeSpan = ((Editable) s) .getSpans(start-1, start, StyleSpan.class);
         }
         //**ss** --> *11*ss**
-        if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString) ||
-                addString.contains(KEY_1) || KEY_1.equals(beforeString) || KEY_1.equals(afterString)) {
+        if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)
+                || addString.contains(KEY_1) || KEY_1.equals(beforeString) || KEY_1.equals(afterString)
+                || (beforeSpan !=null && beforeSpan.length > 0 && (beforeSpan[0].getStyle() > Typeface.NORMAL && beforeSpan[0].getStyle() <= Typeface.BOLD_ITALIC))){
             format((Editable) s, start);
         }
     }
