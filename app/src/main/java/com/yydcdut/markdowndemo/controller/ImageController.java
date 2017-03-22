@@ -1,8 +1,11 @@
 package com.yydcdut.markdowndemo.controller;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -51,15 +54,23 @@ public class ImageController {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        WindowManager windowManager = (WindowManager) mImageDialogView.getContext().getSystemService(Context.WINDOW_SERVICE);
+                        DisplayMetrics dm = new DisplayMetrics();
+                        windowManager.getDefaultDisplay().getMetrics(dm);
+
                         dialog.dismiss();
-                        WindowManager windowManager = (WindowManager) mImageDialogView.getContext().getSystemService(Service.WINDOW_SERVICE);
-                        DisplayMetrics dm = new DisplayMetrics();// 创建了一张白纸
-                        windowManager.getDefaultDisplay().getMetrics(dm);// 给白纸设置宽高
-                        int width = dm.widthPixels;
-                        int height = mImageDialogView.getImageHeight();
-                        String path = mImageDialogView.getPath();
-                        String description = mImageDialogView.getDescription();
-                        doRealImage(width, height, path, description);
+                        Bitmap bitmap = getBitmap(mImageDialogView.getPath().replace("file://", ""));
+                        if(bitmap != null) {
+//                            int width = (int) (bitmap.getWidth() * dm.scaledDensity);
+//                            int height = (int) (bitmap.getHeight() * dm.scaledDensity);
+
+                            int width = bitmap.getWidth();
+                            int height = bitmap.getHeight();
+
+                            String path = mImageDialogView.getPath();
+                            String description = mImageDialogView.getDescription();
+                            doRealImage(width, height, path, description);
+                        }
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -72,13 +83,40 @@ public class ImageController {
                 .create();
     }
 
+    private int resize(int initValue, int maxValue) {
+        int temp = 1;
+        for(int i = 1; i < 10; i++) {
+            temp = initValue * i;
+            if(temp > maxValue) {
+                return i - 1;
+            }
+        }
+        return 1;
+    }
+
+    /**
+     * 获取bitmap
+     *
+     * @param filePath 文件路径
+     * @return bitmap
+     */
+    public static Bitmap getBitmap(String filePath) {
+        if (isSpace(filePath)) return null;
+        return BitmapFactory.decodeFile(filePath);
+    }
+
+    public static boolean isSpace(String s) {
+        return (s == null || s.trim().length() == 0);
+    }
+
     private void doRealImage(int width, int height, String path, String description) {
         int start = mRxMDEditText.getSelectionStart();
+        description = "e";
         if (TextUtils.isEmpty(description)) {
-            mRxMDEditText.getText().insert(start, "\n![](" + path + "/" + width + "$" + height + ")\n");
+            mRxMDEditText.getText().insert(start, "![](" + path + "/" + width + "$" + height + ")\n");
             mRxMDEditText.setSelection(start + 2);
         } else {
-            mRxMDEditText.getText().insert(start, "\n![" + description + "](" + path + "/" + width + "$" + height + ")\n");
+            mRxMDEditText.getText().insert(start, "![" + description + "](" + path + "/" + width + "$" + height + ")\n");
         }
     }
 

@@ -48,10 +48,14 @@ class ImageGrammar extends AbsAndroidGrammar {
 
     private int[] mSize;
     private RxMDImageLoader mRxMDImageLoader;
+    private int widthPixels;
+    private int heightPixels;
 
     ImageGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         super(rxMDConfiguration);
         mSize = rxMDConfiguration.getDefaultImageSize();
+        widthPixels = rxMDConfiguration.getWidthPixels();
+        heightPixels = rxMDConfiguration.getHeightPixels();
         mRxMDImageLoader = rxMDConfiguration.getRxMDImageLoader();
     }
 
@@ -169,7 +173,7 @@ class ImageGrammar extends AbsAndroidGrammar {
                 tmpTotal = tmpTotal.substring(positionCenter + KEY_1_IMAGE.length(), tmpTotal.length());
                 int positionFooter = tmpTotal.indexOf(KEY_2_IMAGE);
                 String link = tmpTotal.substring(0, positionFooter);
-                ssb.setSpan(new MDImageSpan(link, mSize[0], mSize[1], mRxMDImageLoader), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new MDImageSpan(link, mSize[0], mSize[1], widthPixels, mRxMDImageLoader), index, tmp.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 ssb.delete(tmp.length(), tmp.length() + KEY_1_IMAGE.length() + link.length() + KEY_2_IMAGE.length());
                 tmpTotal = tmpTotal.substring(positionFooter + KEY_2_IMAGE.length(), tmpTotal.length());
             } else if (position4Key0 < position4Key1 && position4Key0 < position4Key2 && position4Key2 < position4Key1) {

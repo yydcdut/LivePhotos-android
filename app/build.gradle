@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+//apply plugin: 'com.dx168.fastdex'
 
 android {
     compileSdkVersion 25

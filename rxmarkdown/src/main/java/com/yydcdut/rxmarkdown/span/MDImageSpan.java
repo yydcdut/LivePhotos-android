@@ -19,6 +19,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -54,16 +55,18 @@ public class MDImageSpan extends DynamicDrawableSpan {
     private String mImageUri;
     private Drawable mPlaceHolder;
     private Drawable mFinalDrawable;
-    private final ForwardingDrawable mActualDrawable;
+    private ForwardingDrawable mActualDrawable;
     private boolean mIsAttached;
     private View mAttachedView;
     private boolean mIsRequestSubmitted = false;
 
     private RxMDImageLoader mRxMDImageLoader;
 
+    private int widthPixels;
+
     private static Drawable createEmptyDrawable(int width, int height) {
         ColorDrawable d = new ColorDrawable(Color.TRANSPARENT);
-        d.setBounds(0, 0, width, height);
+        d.setBounds(0, 0, width , height);
         return d;
     }
 
@@ -75,8 +78,9 @@ public class MDImageSpan extends DynamicDrawableSpan {
      * @param height          the display height
      * @param rxMDImageLoader loader
      */
-    public MDImageSpan(String uri, int width, int height, RxMDImageLoader rxMDImageLoader) {
+    public MDImageSpan(String uri, int width, int height, int widthPixels, RxMDImageLoader rxMDImageLoader) {
         this(uri, createEmptyDrawable(getSize(uri, width, height)[0], getSize(uri, width, height)[1]), rxMDImageLoader);
+        this.widthPixels = widthPixels;
     }
 
     /**
@@ -88,7 +92,6 @@ public class MDImageSpan extends DynamicDrawableSpan {
      */
     private MDImageSpan(String uri, Drawable placeHolder, RxMDImageLoader rxMDImageLoader) {
         super(ALIGN_BOTTOM);
-        //getUrl(uri);
         mRxMDImageLoader = rxMDImageLoader;
         mImageUri = uri;
         mPlaceHolder = placeHolder;
@@ -126,6 +129,8 @@ public class MDImageSpan extends DynamicDrawableSpan {
         }
     }
 
+
+
     private void submitRequest() {
         mIsRequestSubmitted = true;
         Observable.just(mImageUri)
@@ -154,9 +159,7 @@ public class MDImageSpan extends DynamicDrawableSpan {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Drawable>() {
                     @Override
-                    public void onCompleted() {
-
-                    }
+                    public void onCompleted() {}
 
                     @Override
                     public void onError(Throwable e) {
@@ -179,7 +182,6 @@ public class MDImageSpan extends DynamicDrawableSpan {
 
     private BitmapDrawable createBitmapDrawable(Bitmap bitmap) {
         BitmapDrawable drawable;
-       // bitmap = ImageUtils.scaleBitmap(bitmap, 1080, 600);
         if (mAttachedView != null) {
             final Context context = mAttachedView.getContext();
             drawable = new BitmapDrawable(context.getResources(), bitmap);
@@ -216,6 +218,36 @@ public class MDImageSpan extends DynamicDrawableSpan {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = sampleSize;
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
+
+        //----Scale to fit screen with and height----
+        int bitmapWidth = bitmap.getWidth();
+        int bitmapHeight = bitmap.getHeight();
+        int targetHeight = (widthPixels * bitmapHeight) / bitmapWidth;
+        float xScale = ((float) widthPixels) / bitmapWidth;
+        float yScale = ((float) targetHeight) / bitmapHeight;
+        float scale = (xScale <= yScale) ? xScale : yScale;
+        Matrix matrix = new Matrix();
+        matrix.postScale(scale, scale);
+        Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmapWidth, bitmapHeight, matrix, true);
+        int scaleWith = scaledBitmap.getWidth(); // re-use
+        int scaleHeight = scaledBitmap.getHeight(); // re-use
+
+        //----invalid-------
+        mPlaceHolder = createEmptyDrawable(scaleWith, scaleHeight);
+        mActualDrawable.setBounds(mPlaceHolder.getBounds());
+        mActualDrawable.invalidateSelf();
+//
+//        mPlaceHolder = createEmptyDrawable(width, height);
+//        mActualDrawable = new ForwardingDrawable(mPlaceHolder);
+//        Rect bounds = mPlaceHolder.getBounds();
+//        if (bounds.right == 0 || bounds.bottom == 0) {
+//            mActualDrawable.setBounds(0, 0, mPlaceHolder.getIntrinsicWidth(), mPlaceHolder.getIntrinsicHeight());
+//        } else {
+//            mActualDrawable.setBounds(bounds);
+//        }
+
+//        mActualDrawable.setCallback(mAttachedView);
+
         return createBitmapDrawable(bitmap);
     }
 
