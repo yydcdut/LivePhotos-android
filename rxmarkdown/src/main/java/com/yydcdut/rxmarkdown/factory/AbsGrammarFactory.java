@@ -234,7 +234,7 @@ public abstract class AbsGrammarFactory {
      * "\\ucontent\\u"
      *
      * @param rxMDConfiguration configuration, need nothing
-     * @return the interface {@link IGrammar} for bold grammar
+     * @return the interface {@link IGrammar} for underline grammar
      */
     protected abstract IGrammar getUnderLine(@NonNull RxMDConfiguration rxMDConfiguration);
 
