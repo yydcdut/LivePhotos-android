@@ -26,12 +26,14 @@ import com.yydcdut.rxmarkdown.span.MDTodoSpan;
  * The implementation of grammar for done.
  * Grammar:
  * "- [ ] "
+ * "* [ ] "
  * <p>
  * Created by yuyidong on 16/5/17.
  */
 class TodoGrammar extends AbsAndroidGrammar {
 
-    protected static final String KEY_TODO = "- [ ] ";
+    protected static final String KEY_0_TODO = "- [ ] ";
+    protected static final String KEY_1_TODO = "* [ ] ";
 
     private int mColor;
 
@@ -42,7 +44,7 @@ class TodoGrammar extends AbsAndroidGrammar {
 
     @Override
     boolean isMatch(@NonNull String text) {
-        return text.startsWith(KEY_TODO);
+        return text.startsWith(KEY_0_TODO) || text.startsWith(KEY_1_TODO);
     }
 
     @NonNull
@@ -53,7 +55,7 @@ class TodoGrammar extends AbsAndroidGrammar {
 
     @Override
     SpannableStringBuilder format(@NonNull SpannableStringBuilder ssb) {
-        ssb.delete(0, KEY_TODO.length());
+        ssb.delete(0, KEY_0_TODO.length());
         ssb.setSpan(new MDTodoSpan(mColor), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return ssb;
     }

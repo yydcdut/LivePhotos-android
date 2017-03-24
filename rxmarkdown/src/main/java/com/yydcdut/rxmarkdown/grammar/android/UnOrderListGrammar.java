@@ -25,11 +25,6 @@ import com.yydcdut.rxmarkdown.span.MDUnOrderListSpan;
 
 import java.util.ArrayList;
 
-import static com.yydcdut.rxmarkdown.grammar.android.OrderListGrammar.KEY_HEADER;
-import static com.yydcdut.rxmarkdown.grammar.android.TodoDoneGrammar.KEY_0_TODO_DONE;
-import static com.yydcdut.rxmarkdown.grammar.android.TodoDoneGrammar.KEY_1_TODO_DONE;
-import static com.yydcdut.rxmarkdown.grammar.android.TodoGrammar.KEY_TODO;
-
 /**
  * The implementation of grammar for unorder list.
  * Grammar:
@@ -50,9 +45,12 @@ class UnOrderListGrammar extends GrammarAdapter {
     protected static final String KEY_2_UNORDER_LIST = "- ";
     protected static final String KEY_2_UNORDER_LIST_CHAR = "-";
 
-    private static final String KEY_IGNORE_0 = KEY_TODO;
-    private static final String KEY_IGNORE_1 = KEY_0_TODO_DONE;
-    private static final String KEY_IGNORE_2 = KEY_1_TODO_DONE;
+    private static final String KEY_IGNORE_0 = TodoGrammar.KEY_0_TODO;
+    private static final String KEY_IGNORE_1 = TodoGrammar.KEY_1_TODO;
+    private static final String KEY_IGNORE_2 = TodoDoneGrammar.KEY_0_TODO_DONE;
+    private static final String KEY_IGNORE_3 = TodoDoneGrammar.KEY_1_TODO_DONE;
+    private static final String KEY_IGNORE_4 = TodoDoneGrammar.KEY_2_TODO_DONE;
+    private static final String KEY_IGNORE_5 = TodoDoneGrammar.KEY_3_TODO_DONE;
 
     private static final int START_POSITION = 2;
 
@@ -94,7 +92,8 @@ class UnOrderListGrammar extends GrammarAdapter {
         String[] lines = text.split("\n");
         ArrayList<NestedUnOrderListBean> list = new ArrayList<>(lines.length);
         for (int i = 0; i < lines.length; i++) {
-            if (lines[i].startsWith(KEY_IGNORE_0) || lines[i].startsWith(KEY_IGNORE_1) || lines[i].startsWith(KEY_IGNORE_2)) {
+            if (lines[i].startsWith(KEY_IGNORE_0) || lines[i].startsWith(KEY_IGNORE_1) || lines[i].startsWith(KEY_IGNORE_2) ||
+                    lines[i].startsWith(KEY_IGNORE_3) || lines[i].startsWith(KEY_IGNORE_4) || lines[i].startsWith(KEY_IGNORE_5)) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
@@ -109,7 +108,7 @@ class UnOrderListGrammar extends GrammarAdapter {
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
-            if (!lines[i].startsWith(KEY_HEADER)) {
+            if (!lines[i].startsWith(OrderListGrammar.KEY_HEADER)) {
                 list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
@@ -150,11 +149,11 @@ class UnOrderListGrammar extends GrammarAdapter {
     private int calculateNested(@NonNull String text) {//有 "  " 才算嵌套的开始
         int nested = 0;
         while (true) {
-            if ((nested + 1) * KEY_HEADER.length() > text.length()) {
+            if ((nested + 1) * OrderListGrammar.KEY_HEADER.length() > text.length()) {
                 break;
             }
-            String sub = text.substring(nested * KEY_HEADER.length(), (nested + 1) * KEY_HEADER.length());
-            if (KEY_HEADER.equals(sub)) {//还是"  "
+            String sub = text.substring(nested * OrderListGrammar.KEY_HEADER.length(), (nested + 1) * OrderListGrammar.KEY_HEADER.length());
+            if (OrderListGrammar.KEY_HEADER.equals(sub)) {//还是"  "
                 nested++;
             } else if (KEY_0_UNORDER_LIST_CHAR.equals(sub) ||
                     KEY_1_UNORDER_LIST_CHAR.equals(sub) ||
@@ -176,10 +175,10 @@ class UnOrderListGrammar extends GrammarAdapter {
      * @param ssb    the content
      */
     private void setSSB(int nested, int start, @NonNull String line, @NonNull SpannableStringBuilder ssb) {
-        ssb.delete(start, start + nested * KEY_HEADER.length() + START_POSITION);
+        ssb.delete(start, start + nested * OrderListGrammar.KEY_HEADER.length() + START_POSITION);
         ssb.setSpan(new MDUnOrderListSpan(10, mColor, nested),
                 start,
-                start + line.length() - (nested * KEY_HEADER.length() + START_POSITION),
+                start + line.length() - (nested * OrderListGrammar.KEY_HEADER.length() + START_POSITION),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 

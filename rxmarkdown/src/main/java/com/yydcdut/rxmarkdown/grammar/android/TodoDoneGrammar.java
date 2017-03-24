@@ -35,6 +35,8 @@ class TodoDoneGrammar extends AbsAndroidGrammar {
 
     protected static final String KEY_0_TODO_DONE = "- [x] ";
     protected static final String KEY_1_TODO_DONE = "- [X] ";
+    protected static final String KEY_2_TODO_DONE = "* [x] ";
+    protected static final String KEY_3_TODO_DONE = "* [X] ";
 
     private static final int START_POSITION = 6;
 
@@ -48,7 +50,9 @@ class TodoDoneGrammar extends AbsAndroidGrammar {
     @Override
     boolean isMatch(@NonNull String text) {
         return text.startsWith(KEY_0_TODO_DONE) ||
-                text.startsWith(KEY_1_TODO_DONE);
+                text.startsWith(KEY_1_TODO_DONE) ||
+                text.startsWith(KEY_2_TODO_DONE) ||
+                text.startsWith(KEY_3_TODO_DONE);
     }
 
     @NonNull

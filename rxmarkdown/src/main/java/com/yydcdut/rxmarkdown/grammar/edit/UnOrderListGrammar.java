@@ -44,6 +44,9 @@ class UnOrderListGrammar extends EditGrammarAdapter {
     private static final String IGNORE_0 = "- [x]";
     private static final String IGNORE_1 = "- [X]";
     private static final String IGNORE_2 = "- [ ]";
+    private static final String IGNORE_3 = "* [x]";
+    private static final String IGNORE_4 = "* [x]";
+    private static final String IGNORE_5 = "* [ ]";
     private static final String PLACE_HOLDER_IGNORE = "     ";
 
     private int mColor;
@@ -128,6 +131,27 @@ class UnOrderListGrammar extends EditGrammarAdapter {
                 break;
             }
             stringBuilder.replace(index0, index0 + IGNORE_2.length(), PLACE_HOLDER_IGNORE);
+        }
+        while (true) {
+            int index0 = stringBuilder.indexOf(IGNORE_3);
+            if (index0 == -1) {
+                break;
+            }
+            stringBuilder.replace(index0, index0 + IGNORE_3.length(), PLACE_HOLDER_IGNORE);
+        }
+        while (true) {
+            int index0 = stringBuilder.indexOf(IGNORE_4);
+            if (index0 == -1) {
+                break;
+            }
+            stringBuilder.replace(index0, index0 + IGNORE_4.length(), PLACE_HOLDER_IGNORE);
+        }
+        while (true) {
+            int index0 = stringBuilder.indexOf(IGNORE_5);
+            if (index0 == -1) {
+                break;
+            }
+            stringBuilder.replace(index0, index0 + IGNORE_5.length(), PLACE_HOLDER_IGNORE);
         }
     }
 }
