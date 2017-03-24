@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
+import com.yydcdut.rxmarkdown.grammar.android.UnderLineGrammar;
 
 import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_BACKSLASH;
 import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_BLOCK_QUOTES;
@@ -37,6 +38,7 @@ import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_ORDER_LIS
 import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_STRIKE_THROUGH;
 import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_TODO;
 import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_TODO_DONE;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_UNDER_LINE;
 import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_UNORDER_LIST;
 
 /**
@@ -56,7 +58,7 @@ public class EditGrammarFacade {
      * @param rxMDConfiguration configuration
      * @return the interface {@link IGrammar}
      */
-    public static IGrammar getAndroidGrammar(@IntRange(from = -1, to = 32) int grammar, @NonNull RxMDConfiguration rxMDConfiguration) {
+    public static IGrammar getAndroidGrammar(@IntRange(from = -1, to = 33) int grammar, @NonNull RxMDConfiguration rxMDConfiguration) {
         switch (grammar) {
             case GRAMMAR_BLOCK_QUOTES:
                 return new BlockQuotesGrammar(rxMDConfiguration);
@@ -80,6 +82,8 @@ public class EditGrammarFacade {
                 return new OrderListGrammar(rxMDConfiguration);
             case GRAMMAR_UNORDER_LIST:
                 return new UnOrderListGrammar(rxMDConfiguration);
+            case GRAMMAR_UNDER_LINE:
+                return new UnderLineGrammar(rxMDConfiguration);
             case GRAMMAR_TODO:
             case GRAMMAR_IMAGE:
             case GRAMMAR_TODO_DONE:

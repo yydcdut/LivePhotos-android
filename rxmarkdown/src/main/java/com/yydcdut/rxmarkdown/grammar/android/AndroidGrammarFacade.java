@@ -37,6 +37,7 @@ import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_ORDER_LIS
 import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_STRIKE_THROUGH;
 import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_TODO;
 import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_TODO_DONE;
+import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_UNDER_LINE;
 import static com.yydcdut.rxmarkdown.factory.AbsGrammarFactory.GRAMMAR_UNORDER_LIST;
 
 /**
@@ -56,7 +57,7 @@ public class AndroidGrammarFacade {
      * @param rxMDConfiguration configuration
      * @return the interface {@link IGrammar}
      */
-    public static IGrammar getAndroidGrammar(@IntRange(from = -1, to = 32) int grammar, @NonNull RxMDConfiguration rxMDConfiguration) {
+    public static IGrammar getAndroidGrammar(@IntRange(from = -1, to = 33) int grammar, @NonNull RxMDConfiguration rxMDConfiguration) {
         switch (grammar) {
             case GRAMMAR_HORIZONTAL_RULES:
                 return new HorizontalRulesGrammar(rxMDConfiguration);
@@ -92,8 +93,11 @@ public class AndroidGrammarFacade {
                 return new OrderListGrammar(rxMDConfiguration);
             case GRAMMAR_BACKSLASH:
                 return new BackslashGrammar(rxMDConfiguration);
+            case GRAMMAR_UNDER_LINE:
+                return new UnderLineGrammar(rxMDConfiguration);
             default:
                 return new NormalGrammar(rxMDConfiguration);
         }
     }
 }
+

@@ -103,6 +103,10 @@ public class TextFactory extends AbsGrammarFactory {
         return AndroidGrammarFacade.getAndroidGrammar(GRAMMAR_BOLD, rxMDConfiguration);
     }
 
+    @Override protected IGrammar getUnderLine(@NonNull final RxMDConfiguration rxMDConfiguration) {
+        return AndroidGrammarFacade.getAndroidGrammar(GRAMMAR_UNDER_LINE, rxMDConfiguration);
+    }
+
     @Override
     protected IGrammar getItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         return AndroidGrammarFacade.getAndroidGrammar(GRAMMAR_ITALIC, rxMDConfiguration);
@@ -162,7 +166,8 @@ public class TextFactory extends AbsGrammarFactory {
                 getBoldGrammar(rxMDConfiguration),
                 getItalicGrammar(rxMDConfiguration),
                 getStrikeThroughGrammar(rxMDConfiguration),
-                getFootnoteGrammar(rxMDConfiguration));
+                getFootnoteGrammar(rxMDConfiguration),
+                getUnderLine(rxMDConfiguration));
         GrammarSingleChain backslashChain = new GrammarSingleChain(getBackslashGrammar(rxMDConfiguration));
 
         mLineChain.setNextHandleGrammar(blockQuitesChain);
