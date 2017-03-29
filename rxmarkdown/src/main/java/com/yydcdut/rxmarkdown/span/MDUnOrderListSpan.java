@@ -27,8 +27,13 @@ import android.text.style.BulletSpan;
  */
 public class MDUnOrderListSpan extends BulletSpan {
 
+    public static final int TYPE_KEY_0 = 0;//*
+    public static final int TYPE_KEY_1 = 1;//-
+    public static final int TYPE_KEY_2 = 2;//+
+
     private int mNested;
     private int mColor;
+    private int mType;
     private static final int NESTED_MARGIN_LENGTH = 9;
     private static final int GAP_WIDTH_PLUS = 10;
 
@@ -39,10 +44,11 @@ public class MDUnOrderListSpan extends BulletSpan {
      * @param color    {@link MDUnOrderListSpan}
      * @param nested   the nested number
      */
-    public MDUnOrderListSpan(int gapWidth, int color, int nested) {
+    public MDUnOrderListSpan(int gapWidth, int color, int nested, int type) {
         super(gapWidth, color);
         mNested = nested;
         mColor = color;
+        mType = type;
     }
 
     @Override
@@ -71,5 +77,14 @@ public class MDUnOrderListSpan extends BulletSpan {
      */
     public int getColor() {
         return mColor;
+    }
+
+    /**
+     * get list type
+     *
+     * @return the type
+     */
+    public int getType() {
+        return mType;
     }
 }

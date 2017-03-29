@@ -15,8 +15,10 @@
  */
 package com.yydcdut.rxmarkdown.grammar.edit;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.text.Editable;
+import android.text.Spannable;
 import android.text.TextUtils;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
@@ -49,6 +51,7 @@ class OrderListGrammar extends EditGrammarAdapter {
 
     @NonNull
     @Override
+    @SuppressLint("WrongConstant")
     public List<EditToken> format(@NonNull Editable editable) {
         List<EditToken> editTokenList = new ArrayList<>();
         Pattern p = Pattern.compile("^( *)(\\d+)\\. (.*?)$", Pattern.MULTILINE);
@@ -63,7 +66,7 @@ class OrderListGrammar extends EditGrammarAdapter {
             int length = match.length();
             int nested = calculateNested(match);
             int number = calculateNumber(match, nested);
-            editTokenList.add(new EditToken(new MDOrderListSpan(10, nested, number), index, index + length));
+            editTokenList.add(new EditToken(new MDOrderListSpan(10, nested, number), index, index + length, Spannable.SPAN_INCLUSIVE_INCLUSIVE));
             content.replace(index, index + length, getPlaceHolder(match));
         }
         return editTokenList;

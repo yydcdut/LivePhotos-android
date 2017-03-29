@@ -94,22 +94,32 @@ class UnOrderListGrammar extends GrammarAdapter {
         for (int i = 0; i < lines.length; i++) {
             if (lines[i].startsWith(KEY_IGNORE_0) || lines[i].startsWith(KEY_IGNORE_1) || lines[i].startsWith(KEY_IGNORE_2) ||
                     lines[i].startsWith(KEY_IGNORE_3) || lines[i].startsWith(KEY_IGNORE_4) || lines[i].startsWith(KEY_IGNORE_5)) {
-                list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1));
+                list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1, 0));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
             if (existCodeSpan(ssb, currentLineIndex, currentLineIndex + (lines[i]).length())) {
-                list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1));
+                list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1, 0));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
-            if (lines[i].startsWith(KEY_0_UNORDER_LIST) || lines[i].startsWith(KEY_1_UNORDER_LIST) || lines[i].startsWith(KEY_2_UNORDER_LIST)) {
-                list.add(new NestedUnOrderListBean(currentLineIndex, true, lines[i], 0));
+            if (lines[i].startsWith(KEY_0_UNORDER_LIST)) {
+                list.add(new NestedUnOrderListBean(currentLineIndex, true, lines[i], 0, MDUnOrderListSpan.TYPE_KEY_2));
+                currentLineIndex += (lines[i] + "\n").length();
+                continue;
+            }
+            if (lines[i].startsWith(KEY_1_UNORDER_LIST)) {
+                list.add(new NestedUnOrderListBean(currentLineIndex, true, lines[i], 0, MDUnOrderListSpan.TYPE_KEY_0));
+                currentLineIndex += (lines[i] + "\n").length();
+                continue;
+            }
+            if (lines[i].startsWith(KEY_2_UNORDER_LIST)) {
+                list.add(new NestedUnOrderListBean(currentLineIndex, true, lines[i], 0, MDUnOrderListSpan.TYPE_KEY_1));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
             if (!lines[i].startsWith(OrderListGrammar.KEY_HEADER)) {
-                list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1));
+                list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1, 0));
                 currentLineIndex += (lines[i] + "\n").length();
                 continue;
             }
@@ -120,12 +130,13 @@ class UnOrderListGrammar extends GrammarAdapter {
                     currentLineIndex += (lines[i] + "\n").length();
                     continue;
                 }
+                int type = calculateNestedType(lines[i]);
                 NestedUnOrderListBean previousBean = list.get(i - 1);
                 if (previousBean != null && previousBean.isRegular &&
                         (nested <= previousBean.nested + 1)) {
-                    list.add(new NestedUnOrderListBean(currentLineIndex, true, lines[i], nested));
+                    list.add(new NestedUnOrderListBean(currentLineIndex, true, lines[i], nested, type));
                 } else {
-                    list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1));
+                    list.add(new NestedUnOrderListBean(currentLineIndex, false, lines[i], -1, 0));
                 }
             }
             currentLineIndex += (lines[i] + "\n").length();
@@ -134,10 +145,32 @@ class UnOrderListGrammar extends GrammarAdapter {
         for (int i = list.size() - 1; i >= 0; i--) {
             NestedUnOrderListBean bean = list.get(i);
             if (bean != null && bean.isRegular) {
-                setSSB(bean.nested, bean.start, bean.line, ssb);
+                setSSB(bean.nested, bean.start, bean.line, bean.type, ssb);
             }
         }
         return ssb;
+    }
+
+    private int calculateNestedType(@NonNull String text) {
+        int nested = 0;
+        while (true) {
+            if ((nested + 1) * OrderListGrammar.KEY_HEADER.length() > text.length()) {
+                break;
+            }
+            String sub = text.substring(nested * OrderListGrammar.KEY_HEADER.length(), (nested + 1) * OrderListGrammar.KEY_HEADER.length());
+            if (OrderListGrammar.KEY_HEADER.equals(sub)) {//还是"  "
+                nested++;
+            } else if (KEY_0_UNORDER_LIST_CHAR.equals(sub)) {
+                return MDUnOrderListSpan.TYPE_KEY_0;
+            } else if (KEY_1_UNORDER_LIST_CHAR.equals(sub)) {
+                return MDUnOrderListSpan.TYPE_KEY_2;
+            } else if (KEY_2_UNORDER_LIST_CHAR.equals(sub)) {
+                return MDUnOrderListSpan.TYPE_KEY_1;
+            } else {
+                return 0;
+            }
+        }
+        return nested;
     }
 
     /**
@@ -174,9 +207,9 @@ class UnOrderListGrammar extends GrammarAdapter {
      * @param line   the content
      * @param ssb    the content
      */
-    private void setSSB(int nested, int start, @NonNull String line, @NonNull SpannableStringBuilder ssb) {
+    private void setSSB(int nested, int start, @NonNull String line, int type, @NonNull SpannableStringBuilder ssb) {
         ssb.delete(start, start + nested * OrderListGrammar.KEY_HEADER.length() + START_POSITION);
-        ssb.setSpan(new MDUnOrderListSpan(10, mColor, nested),
+        ssb.setSpan(new MDUnOrderListSpan(10, mColor, nested, type),
                 start,
                 start + line.length() - (nested * OrderListGrammar.KEY_HEADER.length() + START_POSITION),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -187,12 +220,14 @@ class UnOrderListGrammar extends GrammarAdapter {
         final boolean isRegular;
         final String line;//without "\n"
         final int nested;
+        final int type;
 
-        public NestedUnOrderListBean(int start, boolean isRegular, @NonNull String line, int nested) {
+        public NestedUnOrderListBean(int start, boolean isRegular, @NonNull String line, int nested, int type) {
             this.start = start;
             this.isRegular = isRegular;
             this.line = line;
             this.nested = nested;
+            this.type = type;
         }
     }
 }

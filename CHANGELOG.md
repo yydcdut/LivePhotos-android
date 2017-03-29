@@ -12,4 +12,8 @@
 * Optimizing UnOrderList
 
 ### 0.0.9-bate
-* fix #19
+* fix #19/#21
+
+### 0.1.0
+* Optimizing OrderList
+* fix #15/#16/#17/#21/#25/

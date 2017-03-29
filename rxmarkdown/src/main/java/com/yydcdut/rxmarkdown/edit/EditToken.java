@@ -16,6 +16,7 @@
 package com.yydcdut.rxmarkdown.edit;
 
 import android.support.annotation.NonNull;
+import android.text.Spannable;
 
 /**
  * The class to remain information for editing mode.
@@ -26,6 +27,7 @@ public class EditToken {
     private final Object span;
     private final int start;
     private final int end;
+    private final int flag;//todo 替换
 
     /**
      * Constructor
@@ -35,9 +37,14 @@ public class EditToken {
      * @param end   the edn position
      */
     public EditToken(@NonNull Object span, int start, int end) {
+        this(span, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+
+    public EditToken(@NonNull Object span, int start, int end, int flag) {
         this.span = span;
         this.start = start;
         this.end = end;
+        this.flag = flag;
     }
 
     public Object getSpan() {
@@ -50,5 +57,9 @@ public class EditToken {
 
     public int getEnd() {
         return end;
+    }
+
+    public int getFlag() {
+        return flag;
     }
 }

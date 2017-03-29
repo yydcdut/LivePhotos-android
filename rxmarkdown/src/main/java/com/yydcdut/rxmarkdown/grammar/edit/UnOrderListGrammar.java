@@ -15,8 +15,10 @@
  */
 package com.yydcdut.rxmarkdown.grammar.edit;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.text.Editable;
+import android.text.Spannable;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.edit.EditToken;
@@ -58,37 +60,46 @@ class UnOrderListGrammar extends EditGrammarAdapter {
 
     @NonNull
     @Override
+    @SuppressLint("WrongConstant")
     public List<EditToken> format(@NonNull Editable editable) {
         List<EditToken> editTokenList = new ArrayList<>();
-        List<String> matchList = new ArrayList<>();//找到的
+        List<String> matchList0 = new ArrayList<>();//找到的
+        List<String> matchList1 = new ArrayList<>();//找到的
+        List<String> matchList2 = new ArrayList<>();//找到的
         StringBuilder content = new StringBuilder(editable);
         replaceTodo(content);
         //+ sss
         Pattern p0 = Pattern.compile("^( *)(\\+ )(.*?)$", Pattern.MULTILINE);
         Matcher m0 = p0.matcher(content);
         while (m0.find()) {
-            matchList.add(m0.group());
+            matchList0.add(m0.group());
         }
         //- sss
         Pattern p1 = Pattern.compile("^( *)(\\- )(.*?)$", Pattern.MULTILINE);
         Matcher m1 = p1.matcher(content);
         while (m1.find()) {
-            matchList.add(m1.group());
+            matchList1.add(m1.group());
         }
         //* sss
         Pattern p2 = Pattern.compile("^( *)(\\* )(.*?)$", Pattern.MULTILINE);
         Matcher m2 = p2.matcher(content);
         while (m2.find()) {
-            matchList.add(m2.group());
+            matchList2.add(m2.group());
         }
+        replace(matchList0, MDUnOrderListSpan.TYPE_KEY_2, content, editTokenList);
+        replace(matchList1, MDUnOrderListSpan.TYPE_KEY_1, content, editTokenList);
+        replace(matchList2, MDUnOrderListSpan.TYPE_KEY_0, content, editTokenList);
+        return editTokenList;
+    }
+
+    private void replace(List<String> matchList, int type, StringBuilder content, List<EditToken> editTokenList) {
         for (String match : matchList) {
             int index = content.indexOf(match);
             int length = match.length();
             int nested = calculateNested(match);
-            editTokenList.add(new EditToken(new MDUnOrderListSpan(10, mColor, nested), index, index + length));
+            editTokenList.add(new EditToken(new MDUnOrderListSpan(10, mColor, nested, type), index, index + length, Spannable.SPAN_INCLUSIVE_INCLUSIVE));
             content.replace(index, index + length, getPlaceHolder(match));
         }
-        return editTokenList;
     }
 
     private int calculateNested(String text) {

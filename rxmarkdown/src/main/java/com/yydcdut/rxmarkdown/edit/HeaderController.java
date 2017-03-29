@@ -79,12 +79,12 @@ public class HeaderController extends AbsEditController {
         //## ss --> #12# ss(##12 ss)
         if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
             format((Editable) s, start);
+        } else {
+            int lineFirstCharPosition = EditUtils.findBeforeNewLineChar(s, start);
+            if (s.subSequence(lineFirstCharPosition + 1, lineFirstCharPosition + 2).toString().equals(KEY)) {
+                format((Editable) s, lineFirstCharPosition + 1);
+            }
         }
-
-//        int bnl = EditUtils.findBeforeNewLineChar(s, start);
-//        if (s.subSequence(bnl + 1, bnl + 2).toString().equals(KEY)) {
-//            format((Editable) s, bnl + 1);
-//        }
     }
 
     private void format(Editable editable, int start) {

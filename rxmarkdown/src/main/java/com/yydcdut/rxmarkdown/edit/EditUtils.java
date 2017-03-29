@@ -16,7 +16,6 @@
 package com.yydcdut.rxmarkdown.edit;
 
 import android.text.Editable;
-import android.text.Spannable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +101,7 @@ class EditUtils {
      */
     protected static void setSpans(Editable editable, List<EditToken> editTokenList) {
         for (EditToken editToken : editTokenList) {
-            editable.setSpan(editToken.getSpan(), editToken.getStart(), editToken.getEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            editable.setSpan(editToken.getSpan(), editToken.getStart(), editToken.getEnd(), editToken.getFlag());
         }
     }
 

@@ -17,14 +17,11 @@ package com.yydcdut.rxmarkdown.factory;
 
 import android.support.annotation.NonNull;
 import android.text.Editable;
-import android.text.Spannable;
 
 import com.yydcdut.rxmarkdown.RxMDConfiguration;
 import com.yydcdut.rxmarkdown.edit.EditToken;
 import com.yydcdut.rxmarkdown.grammar.IGrammar;
 import com.yydcdut.rxmarkdown.grammar.edit.EditGrammarFacade;
-import com.yydcdut.rxmarkdown.span.MDOrderListSpan;
-import com.yydcdut.rxmarkdown.span.MDUnOrderListSpan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -177,12 +174,7 @@ public class EditFactory extends AbsGrammarFactory {
         }
         Editable newEditable = Editable.Factory.getInstance().newEditable(editable.toString());
         for (EditToken editToken : list) {
-            if (editToken.getSpan() instanceof MDUnOrderListSpan ||
-                    editToken.getSpan() instanceof MDOrderListSpan) {
-                newEditable.setSpan(editToken.getSpan(), editToken.getStart(), editToken.getEnd(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            } else {
-                newEditable.setSpan(editToken.getSpan(), editToken.getStart(), editToken.getEnd(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
+            newEditable.setSpan(editToken.getSpan(), editToken.getStart(), editToken.getEnd(), editToken.getFlag());
         }
         return newEditable;
     }

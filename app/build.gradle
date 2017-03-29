@@ -8,8 +8,8 @@ android {
         applicationId "com.yydcdut.markdowndemo"
         minSdkVersion 9
         targetSdkVersion 22
-        versionCode 7
-        versionName "1.0.9-beta"
+        versionCode 8
+        versionName "1.1.0"
     }
     buildTypes {
         release {
