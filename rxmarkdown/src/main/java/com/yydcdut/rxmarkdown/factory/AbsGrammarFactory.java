@@ -104,6 +104,11 @@ public abstract class AbsGrammarFactory {
     public static final int GRAMMAR_ORDER_LIST = 32;
 
     /**
+     * for under line
+     */
+    public static final int GRAMMAR_UNDER_LINE = 33;
+
+    /**
      * Constructor
      */
     protected AbsGrammarFactory() {
@@ -222,6 +227,16 @@ public abstract class AbsGrammarFactory {
      * @return the interface {@link IGrammar} for bold grammar
      */
     protected abstract IGrammar getBoldGrammar(@NonNull RxMDConfiguration rxMDConfiguration);
+
+    /**
+     * Get underline grammar.
+     * Grammar:
+     * "\\ucontent\\u"
+     *
+     * @param rxMDConfiguration configuration, need nothing
+     * @return the interface {@link IGrammar} for underline grammar
+     */
+    protected abstract IGrammar getUnderLine(@NonNull RxMDConfiguration rxMDConfiguration);
 
     /**
      * Get italic grammar.

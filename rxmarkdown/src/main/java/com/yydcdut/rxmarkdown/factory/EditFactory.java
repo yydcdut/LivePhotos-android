@@ -94,6 +94,10 @@ public class EditFactory extends AbsGrammarFactory {
         return EditGrammarFacade.getAndroidGrammar(GRAMMAR_BOLD, rxMDConfiguration);
     }
 
+    @Override protected IGrammar getUnderLine(@NonNull final RxMDConfiguration rxMDConfiguration) {
+        return EditGrammarFacade.getAndroidGrammar(GRAMMAR_UNDER_LINE, rxMDConfiguration);
+    }
+
     @Override
     protected IGrammar getItalicGrammar(@NonNull RxMDConfiguration rxMDConfiguration) {
         return EditGrammarFacade.getAndroidGrammar(GRAMMAR_ITALIC, rxMDConfiguration);
@@ -148,6 +152,7 @@ public class EditFactory extends AbsGrammarFactory {
         mGrammarList.add(getHorizontalRulesGrammar(mRxMDConfiguration));
         mGrammarList.add(getOrderListGrammar(mRxMDConfiguration));
         mGrammarList.add(getUnOrderListGrammar(mRxMDConfiguration));
+        mGrammarList.add(getUnderLine(mRxMDConfiguration));
     }
 
     @NonNull
