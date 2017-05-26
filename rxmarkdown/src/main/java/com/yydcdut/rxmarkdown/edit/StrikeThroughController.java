@@ -69,15 +69,18 @@ public class StrikeThroughController extends AbsEditController {
         String addString;
         String beforeString = null;
         String afterString = null;
+        StrikethroughSpan[] beforeSpan = null;
         addString = s.subSequence(start, start + after).toString();
         if (start + 1 <= s.length()) {
             afterString = s.subSequence(start, start + 1).toString();
         }
         if (start > 0) {
             beforeString = s.subSequence(start - 1, start).toString();
+            beforeSpan = ((Editable) s) .getSpans(start-1, start, StrikethroughSpan.class);
         }
         //~~ss~~ --> ~11~ss~~
-        if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)) {
+        if (addString.contains(KEY) || KEY.equals(beforeString) || KEY.equals(afterString)
+                || (beforeSpan != null && beforeSpan.length > 0)) {
             format((Editable) s, start);
         }
     }
