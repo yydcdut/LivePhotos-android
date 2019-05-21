@@ -2,7 +2,7 @@
 
 [![License](http://img.shields.io/:license-apache-blue.svg)](LICENSE.txt) [![API](https://img.shields.io/badge/API-9%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=9)  [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-RxMarkdown-green.svg?style=true)](https://android-arsenal.com/details/1/3967)
 
-RxMarkdown is an Android library that helps to display simple markdown text in `android.widget.EditText` or `android.widget.TextView`, at same time, it supports code high light .
+RxMarkdown is an Android library that helps to display simple markdown text in `android.widget.EditText` or `android.widget.TextView`, at same time, it supports code highlight.
 
 It is backed by RxJava, implementing complicated APIs as handy reactive observables.
 
