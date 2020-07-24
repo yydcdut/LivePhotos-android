@@ -126,7 +126,7 @@ RxMDConfiguration rxMDConfiguration = new RxMDConfiguration.Builder(context)
         .setBlockQuotesBgColor(Color.LTGRAY, Color.RED, Color.BLUE)//default color of block quotes background and nested background
         .setBlockQuotesRelativeSize(Color.LTGRAY, Color.RED, Color.BLUE)//default relative size of block quotes text size
         .setHorizontalRulesColor(Color.LTGRAY)//default color of horizontal rules's background
-        .setHorizontalRulesHeight(Color.LTGRAY)//default height of horizontal rules
+        .setHorizontalRulesHeight(20)//default height of horizontal rules
         .setCodeFontColor(Color.LTGRAY)//default color of inline code's font
         .setCodeBgColor(Color.LTGRAY)//default color of inline code's background
         .setTheme(new ThemeDefault())//default code block theme
